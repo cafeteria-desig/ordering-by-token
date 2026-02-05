@@ -103,11 +103,8 @@ header{
 
 </div>
 
-
-
 <script>
 
-// Load cart from storage
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function showCart(){
@@ -135,10 +132,9 @@ function removeItem(index){
   showCart();
 }
 
-/* ===== PLACE ORDER ===== */
 function placeOrder(){
 
-  if(cart.length===0){
+  if(cart.length === 0){
     alert("Cart empty!");
     return;
   }
@@ -151,24 +147,17 @@ function placeOrder(){
     status: "Pending"
   })
   .then(()=>{
-    alert("Order saved successfully!");
+    alert("Order saved!");
   })
   .catch(err=>{
-    alert("Firebase Error: "+err);
+    alert("Error: " + err);
   });
 
   document.getElementById("token").innerHTML =
     "🎟 Token Number: " + token;
 
-  cart=[];
-  showCart();
-}
-
-  localStorage.setItem("orders", JSON.stringify(orders));
-
-  // Clear cart
   localStorage.removeItem("cart");
-  cart = [];
+  cart=[];
   showCart();
 }
 
@@ -177,8 +166,10 @@ showCart();
 </script>
 
 
+
 </body>
 </html>
+
 
 
 
