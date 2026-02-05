@@ -82,6 +82,12 @@ nav a{
 <a href="admin.html">Pending Orders</a>
 <a href="delivered.html">Delivered Orders</a>
 </nav>
+  
+<h2>Delivered Orders</h2>
+
+<h3>Total Delivered: <span id="deliveredCount">0</span></h3>
+
+<div id="deliveredBox"></div>
 
 <div class="container" id="deliveredBox"></div>
 
@@ -92,9 +98,14 @@ db.collection("orders")
 .onSnapshot(snapshot=>{
 
   let box = document.getElementById("deliveredBox");
+  let countBox = document.getElementById("deliveredCount");
+
   box.innerHTML = "";
+  let count = 0;
 
   snapshot.forEach(doc=>{
+
+    count++;
 
     let order = doc.data();
 
@@ -108,18 +119,34 @@ db.collection("orders")
       <div class="order-card">
         <h3>Token: ${order.token}</h3>
         <p>${itemsHTML}</p>
-        <p>Status: Delivered ✔</p>
+
+        <button onclick="deleteOrder('${doc.id}')">
+          🗑 Delete
+        </button>
       </div>
     `;
 
   });
 
+  countBox.innerText = count;
+
 });
+
+// DELETE ORDER
+function deleteOrder(id){
+
+  if(confirm("Delete this delivered order?")){
+    db.collection("orders").doc(id).delete();
+  }
+
+}
 
 </script>
 
 
+
 </body>
 </html>
+
 
 
