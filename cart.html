@@ -200,6 +200,17 @@ function startStatusListener(orderId){
 
 }
 
+  function newOrder(){
+  localStorage.removeItem("cart");
+  localStorage.removeItem("currentOrderId");
+  cart = [];
+  showCart();
+  document.getElementById("token").innerHTML = "";
+}
+  <button class="place" onclick="newOrder()">New Order</button>
+
+
+
 // Reload listener if page refreshed
 let savedOrderId = localStorage.getItem("currentOrderId");
 
@@ -213,4 +224,5 @@ showCart();
 
 </body>
 </html>
+
 
