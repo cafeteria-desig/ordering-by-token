@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel - Pending Orders</title>
+
+<!-- FIREBASE CDN -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
+<!-- FIREBASE CONFIG -->
 <script>
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyCqf0zl4evouc-AqrkEXodV9PhDHICB2W4",
   authDomain: "cafeteria-token-system.firebaseapp.com",
   projectId: "cafeteria-token-system",
-  storageBucket: "cafeteria-token-system.firebasestorage.app",
+  storageBucket: "cafeteria-token-system.appspot.com",
   messagingSenderId: "577756479182",
-  appId: "1:577756479182:web:87402060f8d942c0525a9f",
-  measurementId: "G-HPMQRDTQGX"
+  appId: "1:577756479182:web:87402060f8d942c0525a9f"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-
 </script>
-  
-<title>Admin Panel - Pending Orders</title>
 
 <style>
 body{
@@ -31,7 +31,6 @@ body{
   background:#f1f5f9;
 }
 
-/* HEADER */
 header{
   background:linear-gradient(to right,#4f46e5,#7c3aed);
   color:white;
@@ -40,7 +39,6 @@ header{
   font-size:24px;
 }
 
-/* NAVBAR */
 nav{
   background:white;
   padding:12px;
@@ -55,11 +53,6 @@ nav a{
   color:#4f46e5;
 }
 
-nav a:hover{
-  text-decoration:underline;
-}
-
-/* CONTAINER */
 .container{
   padding:25px;
   display:grid;
@@ -67,30 +60,17 @@ nav a:hover{
   gap:20px;
 }
 
-/* ORDER CARD */
 .order-card{
   background:white;
   padding:18px;
   border-radius:12px;
   box-shadow:0 6px 12px rgba(0,0,0,0.15);
-  transition:0.3s;
-}
-
-.order-card:hover{
-  transform:translateY(-5px);
 }
 
 .order-card h3{
-  margin-top:0;
   color:#4f46e5;
 }
 
-.status{
-  font-weight:bold;
-  color:#f97316;
-}
-
-/* BUTTONS */
 .btn{
   padding:8px 12px;
   border:none;
@@ -107,8 +87,8 @@ nav a:hover{
 .deliver{
   background:#16a34a;
 }
-
 </style>
+
 </head>
 
 <body>
@@ -122,36 +102,46 @@ nav a:hover{
 
 <div class="container" id="orderBox"></div>
 
-
-
 <script>
 
 db.collection("orders").onSnapshot(snapshot=>{
-  let box=document.getElementById("orderBox");
-  box.innerHTML="";
+
+  let box = document.getElementById("orderBox");
+  box.innerHTML = "";
 
   snapshot.forEach(doc=>{
-    let o=doc.data();
 
-    if(o.status!="Delivered"){
+    let order = doc.data();
 
-      let items="";
-      o.items.forEach(i=>{
-        items+=i.name+" - ₹"+i.price+"<br>";
+    if(order.status !== "Delivered"){
+
+      let itemsHTML = "";
+
+      order.items.forEach(i=>{
+        itemsHTML += i.name + " - ₹" + i.price + "<br>";
       });
 
-      box.innerHTML+=`
-      <div class="order-card">
-        <h3>Token ${o.token}</h3>
-        <p>${items}</p>
-        <p>Status: ${o.status}</p>
+      box.innerHTML += `
+        <div class="order-card">
+          <h3>Token: ${order.token}</h3>
+          <p>${itemsHTML}</p>
+          <p>Status: ${order.status}</p>
 
-        <button onclick="confirmOrder('${doc.id}')">Confirm</button>
-        <button onclick="deliverOrder('${doc.id}')">Delivered</button>
-      </div>
+          <button class="btn confirm"
+            onclick="confirmOrder('${doc.id}')">
+            Confirm
+          </button>
+
+          <button class="btn deliver"
+            onclick="markDelivered('${doc.id}')">
+            Delivered
+          </button>
+        </div>
       `;
     }
+
   });
+
 });
 
 function confirmOrder(id){
@@ -160,7 +150,7 @@ function confirmOrder(id){
   });
 }
 
-function deliverOrder(id){
+function markDelivered(id){
   db.collection("orders").doc(id).update({
     status:"Delivered"
   });
@@ -170,4 +160,3 @@ function deliverOrder(id){
 
 </body>
 </html>
-
