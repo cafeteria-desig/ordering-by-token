@@ -109,19 +109,25 @@ header{
 <!-- 🔥 MAIN SCRIPT -->
 <script>
 
-let raw = localStorage.getItem("cart");
+// =========================
+// LOAD CART
+// =========================
 let cart = [];
 
 try{
-  cart = JSON.parse(raw);
+  cart = JSON.parse(localStorage.getItem("cart")) || [];
 }catch(e){
   cart = [];
 }
 
+// =========================
+// SHOW CART
+// =========================
 function showCart(){
 
   let box = document.getElementById("cartItems");
   let total = 0;
+
   box.innerHTML = "";
 
   cart.forEach((item,index)=>{
@@ -138,13 +144,18 @@ function showCart(){
   document.getElementById("total").innerText = total;
 }
 
+// =========================
+// REMOVE ITEM
+// =========================
 function removeItem(index){
   cart.splice(index,1);
   localStorage.setItem("cart",JSON.stringify(cart));
   showCart();
 }
 
-/* 🔥 PLACE ORDER */
+// =========================
+// PLACE ORDER (Firebase)
+// =========================
 function placeOrder(){
 
   if(cart.length === 0){
@@ -166,16 +177,21 @@ function placeOrder(){
     alert("Order sent to kitchen!");
   })
   .catch(err=>{
-    alert("Firebase error: " + err);
+    alert("Firebase Error: " + err);
   });
 
 }
 
+// =========================
+// INIT
+// =========================
+showCart();
 
 </script>
 
 </body>
 </html>
+
 
 
 
