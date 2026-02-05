@@ -109,118 +109,31 @@ header{
 <!-- 🔥 MAIN SCRIPT -->
 <script>
 
-// ✅ Load cart safely
 let cart = [];
 
 if(localStorage.getItem("cart")){
   cart = JSON.parse(localStorage.getItem("cart"));
 }
 
-/* SHOW CART */
-function showCart(){
+let box = document.getElementById("cartItems");
+let total = 0;
 
-  let box = document.getElementById("cartItems");
-  let total = 0;
-  box.innerHTML = "";
+cart.forEach(item=>{
+  total += item.price;
+  box.innerHTML += `
+    <div>
+      ${item.name} - ₹${item.price}
+    </div>
+  `;
+});
 
-  cart.forEach((item,index)=>{
-    total += item.price;
-
-    box.innerHTML += `
-      <div class="item">
-        ${item.name} - ₹${item.price}
-        <button class="remove" onclick="removeItem(${index})">×</button>
-      </div>
-    `;
-  });
-
-  document.getElementById("total").innerText = total;
-}
-
-/* REMOVE ITEM */
-function removeItem(index){
-  cart.splice(index,1);
-  localStorage.setItem("cart",JSON.stringify(cart));
-  showCart();
-}
-
-/* PLACE ORDER */
-function placeOrder(){
-
-  if(cart.length === 0){
-    alert("Cart is empty!");
-    return;
-  }
-
-  let token = Math.floor(1000 + Math.random()*9000);
-
-  db.collection("orders").add({
-    token: token,
-    items: cart,
-    status: "Pending"
-  })
-  .then((docRef)=>{
-
-    localStorage.setItem("currentOrderId", docRef.id);
-
-    document.getElementById("token").innerHTML =
-      "🎟 Token Number: " + token +
-      "<br><b>Status:</b> Waiting for confirmation...";
-
-    startStatusListener(docRef.id);
-
-  })
-  .catch((error)=>{
-    alert("Firebase Error: " + error);
-  });
-
-}
-
-/* LIVE STATUS */
-function startStatusListener(orderId){
-
-  db.collection("orders").doc(orderId)
-  .onSnapshot(doc=>{
-
-    let order = doc.data();
-
-    if(order.status === "Confirmed"){
-      document.getElementById("token").innerHTML =
-        "🎟 Token Number: " + order.token +
-        "<br><b>Status:</b> ✅ Order Confirmed!";
-    }
-
-    if(order.status === "Delivered"){
-      document.getElementById("token").innerHTML =
-        "🎟 Token Number: " + order.token +
-        "<br><b>Status:</b> 🍽 Order Delivered!";
-    }
-
-  });
-
-}
-
-/* NEW ORDER */
-function newOrder(){
-  localStorage.removeItem("cart");
-  localStorage.removeItem("currentOrderId");
-  cart = [];
-  showCart();
-  document.getElementById("token").innerHTML = "";
-}
-
-/* RELOAD STATUS */
-let savedOrderId = localStorage.getItem("currentOrderId");
-if(savedOrderId){
-  startStatusListener(savedOrderId);
-}
-
-showCart();
+document.getElementById("total").innerText = total;
 
 </script>
 
 
 </body>
 </html>
+
 
 
