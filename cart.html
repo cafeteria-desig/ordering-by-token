@@ -75,6 +75,12 @@ header{
   cursor:pointer;
 }
 
+  .place:disabled{
+  background: gray;
+  cursor: not-allowed;
+}
+
+
 #token{
   text-align:center;
   font-size:22px;
@@ -98,7 +104,7 @@ header{
 
 <h3>Total: ₹<span id="total">0</span></h3>
 
-<button class="place" onclick="placeOrder()">Place Order</button>
+<button id="orderBtn" class="place" onclick="placeOrder()">Place Order</button>
 
 <button class="place" onclick="newOrder()">New Order</button>
 
@@ -159,10 +165,20 @@ function removeItem(index){
 
 function placeOrder(){
 
+  let btn = document.getElementById("orderBtn");
+
+  if(btn.disabled){
+    return; // already clicked
+  }
+
   if(cart.length === 0){
     alert("Cart is empty!");
     return;
   }
+
+  // 🔒 Disable button immediately
+  btn.disabled = true;
+  btn.innerText = "Order Placed";
 
   let token = Math.floor(1000 + Math.random()*9000);
 
@@ -173,22 +189,25 @@ function placeOrder(){
   })
   .then((docRef)=>{
 
-    // 🔥 SAVE ORDER ID
     localStorage.setItem("currentOrderId", docRef.id);
 
     document.getElementById("token").innerHTML =
       "🎟 Token Number: " + token +
       "<br>Status: Pending";
 
-    // 🔥 START LISTENER
     startStatusListener(docRef.id);
 
   })
   .catch(err=>{
     alert("Firebase Error: " + err);
+
+    // If error, re-enable button
+    btn.disabled = false;
+    btn.innerText = "Place Order";
   });
 
 }
+
 function startStatusListener(orderId){
 
   if(!orderId){
@@ -227,6 +246,7 @@ showCart();
 
 </body>
 </html>
+
 
 
 
