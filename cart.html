@@ -154,21 +154,29 @@ function placeOrder(){
 
   let token = Math.floor(1000 + Math.random()*9000);
 
-  document.getElementById("token").innerHTML =
-    "🎟 Token Number: " + token;
+  db.collection("orders").add({
+    token: token,
+    items: cart,
+    status: "Pending"
+  })
+  .then(()=>{
+    document.getElementById("token").innerHTML =
+      "🎟 Token Number: " + token + "<br>Status: Pending";
 
-  // Save order locally (for now)
-  localStorage.setItem("lastToken", token);
+    alert("Order sent to kitchen!");
+  })
+  .catch(err=>{
+    alert("Firebase error: " + err);
+  });
 
 }
 
-/* INIT */
-showCart();
 
 </script>
 
 </body>
 </html>
+
 
 
 
