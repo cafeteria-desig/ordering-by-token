@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Panel - Pending Orders</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Segoe UI, Arial;
+  background:#f1f5f9;
+}
+
+/* HEADER */
+header{
+  background:linear-gradient(to right,#4f46e5,#7c3aed);
+  color:white;
+  padding:18px;
+  text-align:center;
+  font-size:24px;
+}
+
+/* NAVBAR */
+nav{
+  background:white;
+  padding:12px;
+  text-align:center;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+nav a{
+  margin:0 15px;
+  text-decoration:none;
+  font-weight:bold;
+  color:#4f46e5;
+}
+
+nav a:hover{
+  text-decoration:underline;
+}
+
+/* CONTAINER */
+.container{
+  padding:25px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:20px;
+}
+
+/* ORDER CARD */
+.order-card{
+  background:white;
+  padding:18px;
+  border-radius:12px;
+  box-shadow:0 6px 12px rgba(0,0,0,0.15);
+  transition:0.3s;
+}
+
+.order-card:hover{
+  transform:translateY(-5px);
+}
+
+.order-card h3{
+  margin-top:0;
+  color:#4f46e5;
+}
+
+.status{
+  font-weight:bold;
+  color:#f97316;
+}
+
+/* BUTTONS */
+.btn{
+  padding:8px 12px;
+  border:none;
+  border-radius:6px;
+  color:white;
+  cursor:pointer;
+  margin-right:8px;
+}
+
+.confirm{
+  background:#2563eb;
+}
+
+.deliver{
+  background:#16a34a;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>📥 Pending Orders</header>
+
+<nav>
+<a href="admin.html">Pending Orders</a>
+<a href="delivered.html">Delivered Orders</a>
+</nav>
+
+<div class="container" id="orderBox"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCqf0zl4evouc-AqrkEXodV9PhDHICB2W4",
+  authDomain: "cafeteria-token-system.firebaseapp.com",
+  projectId: "cafeteria-token-system",
+  storageBucket: "cafeteria-token-system.firebasestorage.app",
+  messagingSenderId: "577756479182",
+  appId: "1:577756479182:web:87402060f8d942c0525a9f",
+  measurementId: "G-HPMQRDTQGX"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+</script>
+
+
+<script>
+
+db.collection("orders").onSnapshot(snapshot=>{
+  let box=document.getElementById("orderBox");
+  box.innerHTML="";
+
+  snapshot.forEach(doc=>{
+    let o=doc.data();
+
+    if(o.status!="Delivered"){
+
+      let items="";
+      o.items.forEach(i=>{
+        items+=i.name+" - ₹"+i.price+"<br>";
+      });
+
+      box.innerHTML+=`
+      <div class="order-card">
+        <h3>Token ${o.token}</h3>
+        <p>${items}</p>
+        <p>Status: ${o.status}</p>
+
+        <button onclick="confirmOrder('${doc.id}')">Confirm</button>
+        <button onclick="deliverOrder('${doc.id}')">Delivered</button>
+      </div>
+      `;
+    }
+  });
+});
+
+function confirmOrder(id){
+  db.collection("orders").doc(id).update({
+    status:"Confirmed"
+  });
+}
+
+function deliverOrder(id){
+  db.collection("orders").doc(id).update({
+    status:"Delivered"
+  });
+}
+
+</script>
+
+</body>
+</html>
