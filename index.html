@@ -86,7 +86,7 @@ header a{
 
 <header>
 <h1>☕ Cafeteria Menu</h1>
-<a href="cart.html">🛒 View Cart</a>
+<a href="cart.html">🛒 View Cart (<span id="count">0</span>)</a>
 </header>
 
 <div class="menu">
@@ -155,10 +155,21 @@ function add(name,price){
 
   localStorage.setItem("cart", JSON.stringify(cart));
 
+  updateCount();
   alert(name + " added to cart!");
 }
 
+function updateCount(){
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  document.getElementById("count").innerText = cart.length;
+}
+
+// Load count on page open
+updateCount();
+
 </script>
+
 
 </body>
 </html>
+
