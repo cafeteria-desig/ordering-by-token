@@ -137,6 +137,7 @@ header a{
 
 <!-- 🔥 MAIN SCRIPT -->
 <script>
+
 function add(name,price){
 
   let cart = [];
@@ -152,10 +153,11 @@ function add(name,price){
 
   localStorage.setItem("cart",JSON.stringify(cart));
 
+  updateCount();
   alert("Added: " + name);
 }
 
-  function updateCount(){
+function updateCount(){
   let cart = [];
 
   if(localStorage.getItem("cart")){
@@ -167,12 +169,15 @@ function add(name,price){
 
 // Load counter when page opens
 updateCount();
+
 </script>
+
 
 
 
 </body>
 </html>
+
 
 
 
