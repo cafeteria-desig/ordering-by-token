@@ -151,12 +151,18 @@ function confirmOrder(id){
 }
 
 function markDelivered(id){
+
   db.collection("orders").doc(id).update({
-    status:"Delivered"
+    status: "Delivered"
+  }).then(()=>{
+    alert("Order moved to Delivered!");
   });
+
 }
+
 
 </script>
 
 </body>
 </html>
+
