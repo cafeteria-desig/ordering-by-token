@@ -109,26 +109,27 @@ header{
 <!-- 🔥 MAIN SCRIPT -->
 <script>
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  
+// ✅ Load cart safely
 let cart = [];
 
 if(localStorage.getItem("cart")){
   cart = JSON.parse(localStorage.getItem("cart"));
 }
 
+/* SHOW CART */
 function showCart(){
 
   let box = document.getElementById("cartItems");
   let total = 0;
-  box.innerHTML="";
+  box.innerHTML = "";
 
-  cart.forEach((item,i)=>{
+  cart.forEach((item,index)=>{
     total += item.price;
 
     box.innerHTML += `
-      <div>
+      <div class="item">
         ${item.name} - ₹${item.price}
+        <button class="remove" onclick="removeItem(${index})">×</button>
       </div>
     `;
   });
@@ -136,14 +137,14 @@ function showCart(){
   document.getElementById("total").innerText = total;
 }
 
-showCart();
-
+/* REMOVE ITEM */
 function removeItem(index){
   cart.splice(index,1);
   localStorage.setItem("cart",JSON.stringify(cart));
   showCart();
 }
 
+/* PLACE ORDER */
 function placeOrder(){
 
   if(cart.length === 0){
@@ -175,6 +176,7 @@ function placeOrder(){
 
 }
 
+/* LIVE STATUS */
 function startStatusListener(orderId){
 
   db.collection("orders").doc(orderId)
@@ -198,6 +200,7 @@ function startStatusListener(orderId){
 
 }
 
+/* NEW ORDER */
 function newOrder(){
   localStorage.removeItem("cart");
   localStorage.removeItem("currentOrderId");
@@ -206,7 +209,7 @@ function newOrder(){
   document.getElementById("token").innerHTML = "";
 }
 
-// Reload status if page refreshed
+/* RELOAD STATUS */
 let savedOrderId = localStorage.getItem("currentOrderId");
 if(savedOrderId){
   startStatusListener(savedOrderId);
@@ -216,6 +219,8 @@ showCart();
 
 </script>
 
+
 </body>
 </html>
+
 
