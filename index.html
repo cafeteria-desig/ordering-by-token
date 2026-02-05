@@ -138,46 +138,39 @@ header a{
 <!-- 🔥 MAIN SCRIPT -->
 <script>
 
+function getCart(){
+  try{
+    return JSON.parse(localStorage.getItem("cart")) || [];
+  }catch(e){
+    return [];
+  }
+}
+
 function add(name,price){
 
-  let cart = [];
-
-  if(localStorage.getItem("cart")){
-    cart = JSON.parse(localStorage.getItem("cart"));
-  }
+  let cart = getCart();
 
   cart.push({
     name:name,
     price:price
   });
 
-  localStorage.setItem("cart",JSON.stringify(cart));
+  localStorage.setItem("cart", JSON.stringify(cart));
 
   updateCount();
   alert("Added: " + name);
 }
 
 function updateCount(){
-  let cart = [];
-
-  if(localStorage.getItem("cart")){
-    cart = JSON.parse(localStorage.getItem("cart"));
-  }
-
+  let cart = getCart();
   document.getElementById("count").innerText = cart.length;
 }
 
-// Load counter when page opens
+// Load counter on start
 updateCount();
 
 </script>
 
 
-
-
 </body>
 </html>
-
-
-
-
