@@ -107,7 +107,7 @@ header{
 </div>
 
 <!-- 🔥 MAIN SCRIPT -->
-  <script>
+<script>
 
 let raw = localStorage.getItem("cart");
 let cart = [];
@@ -144,15 +144,32 @@ function removeItem(index){
   showCart();
 }
 
+/* 🔥 PLACE ORDER */
+function placeOrder(){
+
+  if(cart.length === 0){
+    alert("Cart is empty!");
+    return;
+  }
+
+  let token = Math.floor(1000 + Math.random()*9000);
+
+  document.getElementById("token").innerHTML =
+    "🎟 Token Number: " + token;
+
+  // Save order locally (for now)
+  localStorage.setItem("lastToken", token);
+
+}
+
+/* INIT */
 showCart();
 
 </script>
 
-
-
-
 </body>
 </html>
+
 
 
 
