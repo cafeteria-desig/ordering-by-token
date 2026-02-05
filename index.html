@@ -154,11 +154,25 @@ function add(name,price){
 
   alert("Added: " + name);
 }
+
+  function updateCount(){
+  let cart = [];
+
+  if(localStorage.getItem("cart")){
+    cart = JSON.parse(localStorage.getItem("cart"));
+  }
+
+  document.getElementById("count").innerText = cart.length;
+}
+
+// Load counter when page opens
+updateCount();
 </script>
 
 
 
 </body>
 </html>
+
 
 
