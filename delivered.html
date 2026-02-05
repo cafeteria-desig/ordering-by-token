@@ -87,7 +87,9 @@ nav a{
 
 <script>
 
-db.collection("orders").onSnapshot(snapshot=>{
+db.collection("orders")
+.where("status","==","Delivered")
+.onSnapshot(snapshot=>{
 
   let box = document.getElementById("deliveredBox");
   box.innerHTML = "";
@@ -121,3 +123,4 @@ db.collection("orders").onSnapshot(snapshot=>{
 
 </body>
 </html>
+
