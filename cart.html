@@ -156,19 +156,18 @@ function placeOrder(){
   })
   .then((docRef)=>{
 
-    // Save order id
+    // Save order id for live tracking
     localStorage.setItem("currentOrderId", docRef.id);
 
+    // Show token & status
     document.getElementById("token").innerHTML =
       "🎟 Token Number: " + token +
       "<br><b>Status:</b> Waiting for confirmation...";
 
     startStatusListener(docRef.id);
 
-    // Clear cart after save
-    localStorage.removeItem("cart");
-    cart = [];
-    showCart();
+    // DO NOT CLEAR CART
+    // Keep items & total visible
 
   })
   .catch((error)=>{
@@ -176,6 +175,7 @@ function placeOrder(){
   });
 
 }
+
 
 function startStatusListener(orderId){
 
@@ -213,3 +213,4 @@ showCart();
 
 </body>
 </html>
+
