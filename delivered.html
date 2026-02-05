@@ -98,22 +98,19 @@ db.collection("orders")
 
     let order = doc.data();
 
-    if(order.status === "Delivered"){
+    let itemsHTML = "";
 
-      let itemsHTML = "";
+    order.items.forEach(i=>{
+      itemsHTML += i.name + " - ₹" + i.price + "<br>";
+    });
 
-      order.items.forEach(i=>{
-        itemsHTML += i.name + " - ₹" + i.price + "<br>";
-      });
-
-      box.innerHTML += `
-        <div class="order-card">
-          <h3>Token: ${order.token}</h3>
-          <p>${itemsHTML}</p>
-          <p>Status: Delivered ✔</p>
-        </div>
-      `;
-    }
+    box.innerHTML += `
+      <div class="order-card">
+        <h3>Token: ${order.token}</h3>
+        <p>${itemsHTML}</p>
+        <p>Status: Delivered ✔</p>
+      </div>
+    `;
 
   });
 
@@ -121,6 +118,8 @@ db.collection("orders")
 
 </script>
 
+
 </body>
 </html>
+
 
