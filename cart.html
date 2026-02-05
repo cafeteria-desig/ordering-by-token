@@ -154,25 +154,60 @@ function placeOrder(){
     items: cart,
     status: "Pending"
   })
-  .then(()=>{
-    alert("Order saved successfully!");
+  .then((docRef)=>{
+
+    // Save order id for tracking
+    localStorage.setItem("currentOrderId", docRef.id);
+
+    document.getElementById("token").innerHTML =
+      "🎟 Token Number: " + token +
+      "<br><b>Status:</b> Waiting for confirmation...";
+
+    startStatusListener(docRef.id);
+
   })
-  .catch((error)=>{
-    alert("Firebase Error: " + error);
-  });
-
-  document.getElementById("token").innerHTML =
-    "🎟 Token Number: " + token;
-
+  .catch(err=>{
+    alert("Error: " + err);
+}
+  
   localStorage.removeItem("cart");
-  cart = [];
+  cart=[];
   showCart();
-
 }
 
 showCart();
+function startStatusListener(orderId){
 
+  db.collection("orders").doc(orderId)
+  .onSnapshot(doc=>{
+
+    let order = doc.data();
+
+    if(order.status === "Confirmed"){
+      document.getElementById("token").innerHTML =
+        "🎟 Token Number: " + order.token +
+        "<br><b>Status:</b> ✅ Order Confirmed!";
+    }
+
+    if(order.status === "Delivered"){
+      document.getElementById("token").innerHTML =
+        "🎟 Token Number: " + order.token +
+        "<br><b>Status:</b> 🍽 Order Delivered!";
+    }
+
+  });
+
+}
+  
+let savedOrderId = localStorage.getItem("currentOrderId");
+
+if(savedOrderId){
+  startStatusListener(savedOrderId);
+}
+
+  
 </script>
 
 </body>
 </html>
+
