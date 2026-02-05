@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cafeteria Menu</title>
@@ -19,7 +20,6 @@ header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  flex-wrap:wrap;
 }
 
 header h1{
@@ -33,7 +33,6 @@ header a{
   padding:8px 14px;
   border-radius:8px;
   text-decoration:none;
-  margin-top:8px;
 }
 
 /* MENU GRID */
@@ -75,40 +74,11 @@ header a{
   padding:6px 12px;
   border-radius:6px;
   cursor:pointer;
-  font-size:14px;
 }
 
 .item button:hover{
   background:#16a34a;
 }
-
-/* MOBILE TWEAKS */
-@media (max-width:600px){
-
-  header{
-    flex-direction:column;
-    text-align:center;
-  }
-
-  header a{
-    width:100%;
-    text-align:center;
-  }
-
-  .menu{
-    grid-template-columns:1fr;
-    padding:15px;
-  }
-
-  .item{
-    font-size:16px;
-  }
-
-  .item button{
-    padding:8px 14px;
-  }
-}
-
 </style>
 </head>
 
@@ -128,7 +98,6 @@ header a{
 <div class="item">Cold Coffee ₹70 <button onclick="add('Cold Coffee',70)">Add</button></div>
 <div class="item">Tea ₹30 <button onclick="add('Tea',30)">Add</button></div>
 <div class="item">Green Tea ₹40 <button onclick="add('Green Tea',40)">Add</button></div>
-<div class="item">Hot Chocolate ₹80 <button onclick="add('Hot Chocolate',80)">Add</button></div>
 </div>
 
 <!-- FAST FOOD -->
@@ -136,7 +105,6 @@ header a{
 <h2>Fast Food</h2>
 <div class="item">Veg Burger ₹90 <button onclick="add('Veg Burger',90)">Add</button></div>
 <div class="item">Cheese Burger ₹110 <button onclick="add('Cheese Burger',110)">Add</button></div>
-<div class="item">Paneer Burger ₹120 <button onclick="add('Paneer Burger',120)">Add</button></div>
 <div class="item">Pizza ₹150 <button onclick="add('Pizza',150)">Add</button></div>
 <div class="item">Garlic Bread ₹90 <button onclick="add('Garlic Bread',90)">Add</button></div>
 </div>
@@ -145,7 +113,6 @@ header a{
 <div class="card">
 <h2>Chinese</h2>
 <div class="item">Veg Noodles ₹120 <button onclick="add('Veg Noodles',120)">Add</button></div>
-<div class="item">Hakka Noodles ₹130 <button onclick="add('Hakka Noodles',130)">Add</button></div>
 <div class="item">Fried Rice ₹120 <button onclick="add('Fried Rice',120)">Add</button></div>
 <div class="item">Manchurian ₹130 <button onclick="add('Manchurian',130)">Add</button></div>
 </div>
@@ -154,40 +121,23 @@ header a{
 <div class="card">
 <h2>Maggi</h2>
 <div class="item">Plain Maggi ₹60 <button onclick="add('Plain Maggi',60)">Add</button></div>
-<div class="item">Butter Maggi ₹70 <button onclick="add('Butter Maggi',70)">Add</button></div>
 <div class="item">Cheese Maggi ₹80 <button onclick="add('Cheese Maggi',80)">Add</button></div>
-<div class="item">Masala Maggi ₹70 <button onclick="add('Masala Maggi',70)">Add</button></div>
+<div class="item">Butter Maggi ₹70 <button onclick="add('Butter Maggi',70)">Add</button></div>
 </div>
 
-<!-- DESSERTS -->
+<!-- DESSERT -->
 <div class="card">
 <h2>Desserts</h2>
 <div class="item">Ice Cream ₹60 <button onclick="add('Ice Cream',60)">Add</button></div>
 <div class="item">Brownie ₹100 <button onclick="add('Brownie',100)">Add</button></div>
 <div class="item">Cup Cake ₹50 <button onclick="add('Cup Cake',50)">Add</button></div>
-<div class="item">Choco Lava Cake ₹110 <button onclick="add('Choco Lava Cake',110)">Add</button></div>
 </div>
 
 </div>
 
+<!-- 🔥 MAIN SCRIPT -->
 <script>
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCqf0zl4evouc-AqrkEXodV9PhDHICB2W4",
-  authDomain: "cafeteria-token-system.firebaseapp.com",
-  projectId: "cafeteria-token-system",
-  storageBucket: "cafeteria-token-system.firebasestorage.app",
-  messagingSenderId: "577756479182",
-  appId: "1:577756479182:web:87402060f8d942c0525a9f",
-  measurementId: "G-HPMQRDTQGX"
-};
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-</script>
-
-<script>
 function add(name,price){
 
   let cart = localStorage.getItem("cart");
@@ -212,4 +162,3 @@ function add(name,price){
 
 </body>
 </html>
-
