@@ -98,18 +98,21 @@ const db = firebase.firestore();
 
 </script>
 
+
 <script>
 
+// Load cart from storage
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function showCart(){
-  let box=document.getElementById("cartItems");
-  let total=0;
-  box.innerHTML="";
+  let box = document.getElementById("cartItems");
+  let total = 0;
+  box.innerHTML = "";
 
   cart.forEach((item,index)=>{
-    total+=item.price;
-    box.innerHTML+=`
+    total += item.price;
+
+    box.innerHTML += `
       <div class="item">
         ${item.name} - ₹${item.price}
         <button class="remove" onclick="removeItem(${index})">×</button>
@@ -117,7 +120,7 @@ function showCart(){
     `;
   });
 
-  document.getElementById("total").innerText=total;
+  document.getElementById("total").innerText = total;
 }
 
 function removeItem(index){
@@ -126,26 +129,33 @@ function removeItem(index){
   showCart();
 }
 
+/* ===== PLACE ORDER ===== */
 function placeOrder(){
 
-  if(cart.length==0){
-    alert("Cart empty!");
+  if(cart.length === 0){
+    alert("Cart is empty!");
     return;
   }
 
   let token = Math.floor(1000 + Math.random()*9000);
 
-  db.collection("orders").add({
-    token: token,
-    items: cart,
-    status: "Pending",
-    time: new Date()
-  });
-
   document.getElementById("token").innerHTML =
     "🎟 Token Number: " + token;
 
-  cart=[];
+  // SAVE ORDER FOR ADMIN
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  orders.push({
+    token: token,
+    items: cart,
+    status: "Pending"
+  });
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  // Clear cart
+  localStorage.removeItem("cart");
+  cart = [];
   showCart();
 }
 
@@ -153,5 +163,7 @@ showCart();
 
 </script>
 
+
 </body>
 </html>
+
