@@ -110,25 +110,33 @@ header{
 <script>
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  
+let cart = [];
+
+if(localStorage.getItem("cart")){
+  cart = JSON.parse(localStorage.getItem("cart"));
+}
 
 function showCart(){
+
   let box = document.getElementById("cartItems");
   let total = 0;
-  box.innerHTML = "";
+  box.innerHTML="";
 
-  cart.forEach((item,index)=>{
+  cart.forEach((item,i)=>{
     total += item.price;
 
     box.innerHTML += `
-      <div class="item">
+      <div>
         ${item.name} - ₹${item.price}
-        <button class="remove" onclick="removeItem(${index})">×</button>
       </div>
     `;
   });
 
   document.getElementById("total").innerText = total;
 }
+
+showCart();
 
 function removeItem(index){
   cart.splice(index,1);
@@ -210,3 +218,4 @@ showCart();
 
 </body>
 </html>
+
