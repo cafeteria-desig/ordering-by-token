@@ -109,29 +109,22 @@ header{
 <!-- 🔥 MAIN SCRIPT -->
 <script>
 
-// =========================
-// LOAD CART
-// =========================
+// ✅ Load cart safely
 let cart = [];
 
-try{
-  cart = JSON.parse(localStorage.getItem("cart")) || [];
-}catch(e){
-  cart = [];
+if(localStorage.getItem("cart")){
+  cart = JSON.parse(localStorage.getItem("cart"));
 }
 
-// =========================
-// SHOW CART
-// =========================
+/* SHOW CART */
 function showCart(){
 
   let box = document.getElementById("cartItems");
   let total = 0;
-
   box.innerHTML = "";
 
   cart.forEach((item,index)=>{
-    total += Number(item.price);
+    total += item.price;
 
     box.innerHTML += `
       <div class="item">
@@ -144,18 +137,14 @@ function showCart(){
   document.getElementById("total").innerText = total;
 }
 
-// =========================
-// REMOVE ITEM
-// =========================
+/* REMOVE ITEM */
 function removeItem(index){
   cart.splice(index,1);
   localStorage.setItem("cart",JSON.stringify(cart));
   showCart();
 }
 
-// =========================
-// PLACE ORDER (Firebase)
-// =========================
+/* PLACE ORDER */
 function placeOrder(){
 
   if(cart.length === 0){
@@ -170,27 +159,67 @@ function placeOrder(){
     items: cart,
     status: "Pending"
   })
-  .then(()=>{
-    document.getElementById("token").innerHTML =
-      "🎟 Token Number: " + token + "<br>Status: Pending";
+  .then((docRef)=>{
 
-    alert("Order sent to kitchen!");
+    localStorage.setItem("currentOrderId", docRef.id);
+
+    document.getElementById("token").innerHTML =
+      "🎟 Token Number: " + token +
+      "<br><b>Status:</b> Waiting for confirmation...";
+
+    startStatusListener(docRef.id);
+
   })
-  .catch(err=>{
-    alert("Firebase Error: " + err);
+  .catch((error)=>{
+    alert("Firebase Error: " + error);
   });
 
 }
 
-// =========================
-// INIT
-// =========================
-showCart();
+/* LIVE STATUS */
+function startStatusListener(orderId){
 
-</script>
+  db.collection("orders").doc(orderId)
+  .onSnapshot(doc=>{
+
+    let order = doc.data();
+
+    if(order.status === "Confirmed"){
+      document.getElementById("token").innerHTML =
+        "🎟 Token Number: " + order.token +
+        "<br><b>Status:</b> ✅ Order Confirmed!";
+    }
+
+    if(order.status === "Delivered"){
+      document.getElementById("token").innerHTML =
+        "🎟 Token Number: " + order.token +
+        "<br><b>Status:</b> 🍽 Order Delivered!";
+    }
+
+  });
+
+}
+
+/* NEW ORDER */
+function newOrder(){
+  localStorage.removeItem("cart");
+  localStorage.removeItem("currentOrderId");
+  cart = [];
+  showCart();
+  document.getElementById("token").innerHTML = "";
+}
+
+/* RELOAD STATUS */
+let savedOrderId = localStorage.getItem("currentOrderId");
+if(savedOrderId){
+  startStatusListener(savedOrderId);
+}
+
+showCart();
 
 </body>
 </html>
+
 
 
 
