@@ -207,6 +207,25 @@ function placeOrder(){
   });
 
 }
+  function newOrder(){
+
+  // Clear cart data
+  localStorage.removeItem("cart");
+  localStorage.removeItem("currentOrderId");
+
+  cart = [];
+  showCart();
+
+  // Clear token display
+  document.getElementById("token").innerHTML = "";
+
+  // Re-enable Place Order button
+  let btn = document.getElementById("orderBtn");
+  btn.disabled = false;
+  btn.innerText = "Place Order";
+
+}
+
 
 function startStatusListener(orderId){
 
@@ -246,6 +265,7 @@ showCart();
 
 </body>
 </html>
+
 
 
 
