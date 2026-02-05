@@ -170,13 +170,47 @@ function placeOrder(){
     token: token,
     items: cart,
     status: "Pending"
-  }).then(()=>{
+  })
+  .then((docRef)=>{
+
+    // Save order id
+    localStorage.setItem("currentOrderId", docRef.id);
 
     document.getElementById("token").innerHTML =
-      "🎟 Token Number: " + token + "<br>Status: Pending";
+      "🎟 Token Number: " + token +
+      "<br>Status: Pending";
+
+    startStatusListener(docRef.id);
 
   });
 
+}
+function startStatusListener(orderId){
+
+  db.collection("orders").doc(orderId)
+  .onSnapshot(doc=>{
+
+    let order = doc.data();
+
+    if(order.status === "Confirmed"){
+      document.getElementById("token").innerHTML =
+        "🎟 Token Number: " + order.token +
+        "<br>Status: ✅ Confirmed by Cafeteria";
+    }
+
+    if(order.status === "Delivered"){
+      document.getElementById("token").innerHTML =
+        "🎟 Token Number: " + order.token +
+        "<br>Status: 🍽 Delivered";
+    }
+
+  });
+
+}
+let savedOrderId = localStorage.getItem("currentOrderId");
+
+if(savedOrderId){
+  startStatusListener(savedOrderId);
 }
 
 showCart();
@@ -186,6 +220,7 @@ showCart();
 
 </body>
 </html>
+
 
 
 
