@@ -156,7 +156,7 @@ function placeOrder(){
   })
   .then((docRef)=>{
 
-    // Save order id for tracking
+    // Save order id
     localStorage.setItem("currentOrderId", docRef.id);
 
     document.getElementById("token").innerHTML =
@@ -165,14 +165,16 @@ function placeOrder(){
 
     startStatusListener(docRef.id);
 
+    // Clear cart after save
+    localStorage.removeItem("cart");
+    cart = [];
+    showCart();
+
   })
-  .catch(err=>{
-    alert("Error: " + err);
-}
-  
-  localStorage.removeItem("cart");
-  cart=[];
-  showCart();
+  .catch((error)=>{
+    alert("Firebase Error: " + error);
+  });
+
 }
 
 function startStatusListener(orderId){
@@ -197,17 +199,17 @@ function startStatusListener(orderId){
   });
 
 }
-  
+
+// Reload listener if page refreshed
 let savedOrderId = localStorage.getItem("currentOrderId");
 
 if(savedOrderId){
   startStatusListener(savedOrderId);
 }
 
-  
+showCart();
+
 </script>
 
 </body>
 </html>
-
-
