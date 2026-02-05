@@ -25,51 +25,106 @@ const db = firebase.firestore();
 </script>
 
 <style>
+
 body{
   margin:0;
   font-family:Segoe UI, Arial;
   background:#f1f5f9;
 }
 
+/* HEADER */
 header{
-  background:linear-gradient(to right,#16a34a,#22c55e);
+  background:linear-gradient(135deg,#16a34a,#22c55e);
   color:white;
-  padding:18px;
+  padding:22px;
   text-align:center;
-  font-size:24px;
+  font-size:26px;
+  font-weight:bold;
+  letter-spacing:1px;
 }
 
+/* NAVBAR */
 nav{
   background:white;
   padding:12px;
   text-align:center;
-  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+  box-shadow:0 3px 8px rgba(0,0,0,0.1);
+  position:sticky;
+  top:0;
+  z-index:100;
 }
 
 nav a{
-  margin:0 15px;
+  margin:0 18px;
   text-decoration:none;
-  font-weight:bold;
+  font-weight:600;
   color:#16a34a;
+  font-size:16px;
 }
 
+nav a:hover{
+  color:#065f46;
+}
+
+/* STATS */
+.stats{
+  text-align:center;
+  margin:20px 0;
+  font-size:20px;
+  color:#065f46;
+  font-weight:bold;
+}
+
+/* GRID */
 .container{
   padding:25px;
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:20px;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:22px;
 }
 
+/* ORDER CARD */
 .order-card{
   background:white;
-  padding:18px;
-  border-radius:12px;
-  box-shadow:0 6px 12px rgba(0,0,0,0.15);
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 8px 15px rgba(0,0,0,0.12);
+  transition:transform 0.2s, box-shadow 0.2s;
+}
+
+.order-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 12px 20px rgba(0,0,0,0.18);
 }
 
 .order-card h3{
   color:#16a34a;
+  margin-bottom:10px;
 }
+
+.items{
+  color:#374151;
+  font-size:14px;
+  line-height:1.6;
+  margin-bottom:12px;
+}
+
+/* DELETE BUTTON */
+.delete-btn{
+  width:100%;
+  background:#dc2626;
+  color:white;
+  border:none;
+  padding:10px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:15px;
+}
+
+.delete-btn:hover{
+  background:#b91c1c;
+}
+
 </style>
 
 </head>
@@ -79,15 +134,13 @@ nav a{
 <header>✅ Delivered Orders</header>
 
 <nav>
-<a href="admin.html">Pending Orders</a>
-<a href="delivered.html">Delivered Orders</a>
+  <a href="admin.html">🕒 Pending Orders</a>
+  <a href="delivered.html">✅ Delivered Orders</a>
 </nav>
-  
-<h2>Delivered Orders</h2>
 
-<h3>Total Delivered: <span id="deliveredCount">0</span></h3>
-
-<div id="deliveredBox"></div>
+<div class="stats">
+Total Delivered: <span id="deliveredCount">0</span>
+</div>
 
 <div class="container" id="deliveredBox"></div>
 
@@ -118,10 +171,13 @@ db.collection("orders")
     box.innerHTML += `
       <div class="order-card">
         <h3>Token: ${order.token}</h3>
-        <p>${itemsHTML}</p>
 
-        <button onclick="deleteOrder('${doc.id}')">
-          🗑 Delete
+        <div class="items">
+          ${itemsHTML}
+        </div>
+
+        <button class="delete-btn" onclick="deleteOrder('${doc.id}')">
+          🗑 Delete Order
         </button>
       </div>
     `;
@@ -134,19 +190,13 @@ db.collection("orders")
 
 // DELETE ORDER
 function deleteOrder(id){
-
-  if(confirm("Delete this delivered order?")){
+  if(confirm("Delete this delivered order permanently?")){
     db.collection("orders").doc(id).delete();
   }
-
 }
 
 </script>
 
-
-
 </body>
 </html>
-
-
 
