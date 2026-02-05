@@ -109,19 +109,25 @@ header{
 <!-- 🔥 MAIN SCRIPT -->
 <script>
 
+let raw = localStorage.getItem("cart");
 let cart = [];
 
-if(localStorage.getItem("cart")){
-  cart = JSON.parse(localStorage.getItem("cart"));
+try{
+  cart = JSON.parse(raw);
+}catch(e){
+  cart = [];
 }
 
 let box = document.getElementById("cartItems");
 let total = 0;
 
+box.innerHTML = "";
+
 cart.forEach(item=>{
-  total += item.price;
+  total += Number(item.price);
+
   box.innerHTML += `
-    <div>
+    <div class="item">
       ${item.name} - ₹${item.price}
     </div>
   `;
@@ -132,8 +138,10 @@ document.getElementById("total").innerText = total;
 </script>
 
 
+
 </body>
 </html>
+
 
 
 
