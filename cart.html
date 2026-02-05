@@ -138,24 +138,31 @@ function removeItem(index){
 /* ===== PLACE ORDER ===== */
 function placeOrder(){
 
-  if(cart.length === 0){
-    alert("Cart is empty!");
+  if(cart.length===0){
+    alert("Cart empty!");
     return;
   }
 
   let token = Math.floor(1000 + Math.random()*9000);
 
-  document.getElementById("token").innerHTML =
-    "🎟 Token Number: " + token;
-
-  // SAVE ORDER FOR ADMIN
-  let orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-  orders.push({
+  db.collection("orders").add({
     token: token,
     items: cart,
     status: "Pending"
+  })
+  .then(()=>{
+    alert("Order saved successfully!");
+  })
+  .catch(err=>{
+    alert("Firebase Error: "+err);
   });
+
+  document.getElementById("token").innerHTML =
+    "🎟 Token Number: " + token;
+
+  cart=[];
+  showCart();
+}
 
   localStorage.setItem("orders", JSON.stringify(orders));
 
@@ -172,5 +179,6 @@ showCart();
 
 </body>
 </html>
+
 
 
