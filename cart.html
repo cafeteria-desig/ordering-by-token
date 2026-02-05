@@ -71,7 +71,7 @@ header{
   color:white;
   border:none;
   border-radius:8px;
-  margin-top:15px;
+  margin-top:10px;
   cursor:pointer;
 }
 
@@ -100,6 +100,8 @@ header{
 
 <button class="place" onclick="placeOrder()">Place Order</button>
 
+<button class="place" onclick="newOrder()">New Order</button>
+
 <div id="token"></div>
 
 </div>
@@ -110,14 +112,11 @@ header{
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function showCart(){
-
   let box = document.getElementById("cartItems");
   let total = 0;
-
   box.innerHTML = "";
 
   cart.forEach((item,index)=>{
-
     total += item.price;
 
     box.innerHTML += `
@@ -126,18 +125,15 @@ function showCart(){
         <button class="remove" onclick="removeItem(${index})">×</button>
       </div>
     `;
-
   });
 
   document.getElementById("total").innerText = total;
 }
 
 function removeItem(index){
-
   cart.splice(index,1);
   localStorage.setItem("cart",JSON.stringify(cart));
   showCart();
-
 }
 
 function placeOrder(){
@@ -156,18 +152,13 @@ function placeOrder(){
   })
   .then((docRef)=>{
 
-    // Save order id for live tracking
     localStorage.setItem("currentOrderId", docRef.id);
 
-    // Show token & status
     document.getElementById("token").innerHTML =
       "🎟 Token Number: " + token +
       "<br><b>Status:</b> Waiting for confirmation...";
 
     startStatusListener(docRef.id);
-
-    // DO NOT CLEAR CART
-    // Keep items & total visible
 
   })
   .catch((error)=>{
@@ -175,7 +166,6 @@ function placeOrder(){
   });
 
 }
-
 
 function startStatusListener(orderId){
 
@@ -200,20 +190,16 @@ function startStatusListener(orderId){
 
 }
 
-  function newOrder(){
+function newOrder(){
   localStorage.removeItem("cart");
   localStorage.removeItem("currentOrderId");
   cart = [];
   showCart();
   document.getElementById("token").innerHTML = "";
 }
-  <button class="place" onclick="newOrder()">New Order</button>
 
-
-
-// Reload listener if page refreshed
+// Reload status if page refreshed
 let savedOrderId = localStorage.getItem("currentOrderId");
-
 if(savedOrderId){
   startStatusListener(savedOrderId);
 }
@@ -224,5 +210,3 @@ showCart();
 
 </body>
 </html>
-
-
