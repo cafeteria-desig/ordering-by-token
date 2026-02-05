@@ -173,18 +173,23 @@ function placeOrder(){
   })
   .then((docRef)=>{
 
-    // Save order id
+    // 🔥 SAVE ORDER ID
     localStorage.setItem("currentOrderId", docRef.id);
 
     document.getElementById("token").innerHTML =
       "🎟 Token Number: " + token +
       "<br>Status: Pending";
 
+    // 🔥 START LISTENER
     startStatusListener(docRef.id);
 
+  })
+  .catch(err=>{
+    alert("Firebase Error: " + err);
   });
 
 }
+
 function startStatusListener(orderId){
 
   db.collection("orders").doc(orderId)
@@ -220,6 +225,7 @@ showCart();
 
 </body>
 </html>
+
 
 
 
