@@ -109,42 +109,54 @@ header{
 <!-- 🔥 MAIN SCRIPT -->
 <script>
 
-// ✅ Load cart safely
+// Load cart
 let cart = [];
 
-if(localStorage.getItem("cart")){
-  cart = JSON.parse(localStorage.getItem("cart"));
+try{
+  cart = JSON.parse(localStorage.getItem("cart")) || [];
+}catch(e){
+  cart = [];
 }
 
-/* SHOW CART */
 function showCart(){
 
   let box = document.getElementById("cartItems");
   let total = 0;
+
   box.innerHTML = "";
 
   cart.forEach((item,index)=>{
-    total += item.price;
 
-    box.innerHTML += `
-      <div class="item">
-        ${item.name} - ₹${item.price}
-        <button class="remove" onclick="removeItem(${index})">×</button>
-      </div>
-    `;
+    total += Number(item.price);
+
+    let row = document.createElement("div");
+    row.className = "item";
+
+    let text = document.createElement("span");
+    text.innerText = item.name + " - ₹" + item.price;
+
+    let btn = document.createElement("button");
+    btn.className = "remove";
+    btn.innerText = "×";
+    btn.onclick = function(){
+      removeItem(index);
+    };
+
+    row.appendChild(text);
+    row.appendChild(btn);
+    box.appendChild(row);
+
   });
 
   document.getElementById("total").innerText = total;
 }
 
-/* REMOVE ITEM */
 function removeItem(index){
   cart.splice(index,1);
   localStorage.setItem("cart",JSON.stringify(cart));
   showCart();
 }
 
-/* PLACE ORDER */
 function placeOrder(){
 
   if(cart.length === 0){
@@ -158,68 +170,23 @@ function placeOrder(){
     token: token,
     items: cart,
     status: "Pending"
-  })
-  .then((docRef)=>{
-
-    localStorage.setItem("currentOrderId", docRef.id);
+  }).then(()=>{
 
     document.getElementById("token").innerHTML =
-      "🎟 Token Number: " + token +
-      "<br><b>Status:</b> Waiting for confirmation...";
-
-    startStatusListener(docRef.id);
-
-  })
-  .catch((error)=>{
-    alert("Firebase Error: " + error);
-  });
-
-}
-
-/* LIVE STATUS */
-function startStatusListener(orderId){
-
-  db.collection("orders").doc(orderId)
-  .onSnapshot(doc=>{
-
-    let order = doc.data();
-
-    if(order.status === "Confirmed"){
-      document.getElementById("token").innerHTML =
-        "🎟 Token Number: " + order.token +
-        "<br><b>Status:</b> ✅ Order Confirmed!";
-    }
-
-    if(order.status === "Delivered"){
-      document.getElementById("token").innerHTML =
-        "🎟 Token Number: " + order.token +
-        "<br><b>Status:</b> 🍽 Order Delivered!";
-    }
+      "🎟 Token Number: " + token + "<br>Status: Pending";
 
   });
 
-}
-
-/* NEW ORDER */
-function newOrder(){
-  localStorage.removeItem("cart");
-  localStorage.removeItem("currentOrderId");
-  cart = [];
-  showCart();
-  document.getElementById("token").innerHTML = "";
-}
-
-/* RELOAD STATUS */
-let savedOrderId = localStorage.getItem("currentOrderId");
-if(savedOrderId){
-  startStatusListener(savedOrderId);
 }
 
 showCart();
-</script> 
+
+</script>
+
 
 </body>
 </html>
+
 
 
 
