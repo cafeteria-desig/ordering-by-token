@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel - Pending Orders</title>
+<title>Admin Panel</title>
 
-<!-- FIREBASE CDN -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-<!-- FIREBASE CONFIG -->
 <script>
 const firebaseConfig = {
   apiKey: "AIzaSyCqf0zl4evouc-AqrkEXodV9PhDHICB2W4",
@@ -25,141 +21,39 @@ const db = firebase.firestore();
 </script>
 
 <style>
-body{
-  margin:0;
-  font-family:Segoe UI, Arial;
-  background:#f1f5f9;
-}
-
-header{
-  background:linear-gradient(to right,#4f46e5,#7c3aed);
-  color:white;
-  padding:18px;
-  text-align:center;
-  font-size:24px;
-}
-
-nav{
-  background:white;
-  padding:12px;
-  text-align:center;
-  box-shadow:0 2px 5px rgba(0,0,0,0.1);
-}
-
-nav a{
-  margin:0 15px;
-  text-decoration:none;
-  font-weight:bold;
-  color:#4f46e5;
-}
-
-.container{
-  padding:25px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:20px;
-}
-
-.order-card{
-  background:white;
-  padding:18px;
-  border-radius:12px;
-  box-shadow:0 6px 12px rgba(0,0,0,0.15);
-}
-
-.order-card h3{
-  color:#4f46e5;
-}
-
-.btn{
-  padding:8px 12px;
-  border:none;
-  border-radius:6px;
-  color:white;
-  cursor:pointer;
-  margin-right:8px;
-}
-
-.confirm{
-  background:#2563eb;
-}
-
-.deliver{
-  background:#16a34a;
-}
+body{font-family:Arial;background:#f4f6f8;}
+.card{background:white;padding:15px;margin:10px;border-radius:8px;}
 </style>
-
 </head>
 
 <body>
 
-<header>📥 Pending Orders</header>
-
-<nav>
-<a href="admin.html">Pending Orders</a>
-<a href="delivered.html">Delivered Orders</a>
-</nav>
-
-<div class="container" id="orderBox"></div>
+<h2>Pending Orders</h2>
+<div id="orders"></div>
 
 <script>
 
 db.collection("orders").onSnapshot(snapshot=>{
-
-  let box = document.getElementById("orderBox");
-  box.innerHTML = "";
+  let box=document.getElementById("orders");
+  box.innerHTML="";
 
   snapshot.forEach(doc=>{
+    let o=doc.data();
 
-    let order = doc.data();
+    let items="";
+    o.items.forEach(i=>{
+      items+=i.name+" ₹"+i.price+"<br>";
+    });
 
-    if(order.status !== "Delivered"){
-
-      let itemsHTML = "";
-
-      order.items.forEach(i=>{
-        itemsHTML += i.name + " - ₹" + i.price + "<br>";
-      });
-
-      box.innerHTML += `
-        <div class="order-card">
-          <h3>Token: ${order.token}</h3>
-          <p>${itemsHTML}</p>
-          <p>Status: ${order.status}</p>
-
-          <button class="btn confirm"
-            onclick="confirmOrder('${doc.id}')">
-            Confirm
-          </button>
-
-          <button class="btn deliver"
-            onclick="markDelivered('${doc.id}')">
-            Delivered
-          </button>
-        </div>
-      `;
-    }
-
+    box.innerHTML+=`
+      <div class="card">
+        <b>Token:</b> ${o.token}<br>
+        ${items}
+        <b>Status:</b> ${o.status}
+      </div>
+    `;
   });
-
 });
-
-function confirmOrder(id){
-  db.collection("orders").doc(id).update({
-    status:"Confirmed"
-  });
-}
-
-function markDelivered(id){
-
-  db.collection("orders").doc(id).update({
-    status: "Delivered"
-  }).then(()=>{
-    alert("Order moved to Delivered!");
-  });
-
-}
-
 
 </script>
 
