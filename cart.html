@@ -5,6 +5,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Your Cart</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo:wght@400;600&display=swap" rel="stylesheet">
 
 <!-- 🔥 FIREBASE CDN -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -28,65 +29,75 @@ const db = firebase.firestore();
 <style>
 body{
   margin:0;
-  font-family:Segoe UI, Arial;
-  background:#f4f6f8;
+  font-family:'Exo', sans-serif;
+  background: #0f0f23; /* Solid dark blue to match menu */
+  color: #e0e0e0; /* Light gray text */
+  min-height: 100vh;
 }
 
 header{
-  background:#1f2933;
-  color:white;
-  padding:18px;
-  text-align:center;
+  background: #8b5cf6; /* Solid purple to match menu header */
+  color: #ffffff; /* White text */
+  padding: 20px 30px;
+  text-align: center;
+  font-family: 'Orbitron', monospace;
 }
 
 .cart-box{
-  max-width:500px;
-  margin:30px auto;
-  background:white;
-  padding:20px;
-  border-radius:12px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.15);
+  max-width: 500px;
+  margin: 30px auto;
+  background: #ffffff; /* Solid white to match menu cards */
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .item{
-  display:flex;
-  justify-content:space-between;
-  margin:10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px 0;
+  font-size: 16px;
+  padding: 8px;
+  border-radius: 8px;
+  background: #f3f4f6; /* Light gray background to match menu items */
+  color: #000000; /* Black text for contrast */
 }
 
 .remove{
-  background:red;
-  color:white;
-  border:none;
-  border-radius:50%;
-  width:22px;
-  height:22px;
-  cursor:pointer;
+  background: #ef4444; /* Solid red to match header link color */
+  color: #ffffff; /* White text */
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
 }
 
 .place{
-  width:100%;
-  padding:12px;
-  background:#10b981;
-  color:white;
-  border:none;
-  border-radius:8px;
-  margin-top:10px;
-  cursor:pointer;
+  width: 100%;
+  padding: 12px;
+  background: #10b981; /* Solid green to match menu buttons */
+  color: #ffffff; /* White text */
+  border: none;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
-  .place:disabled{
+.place:disabled{
   background: gray;
   cursor: not-allowed;
 }
 
-
 #token{
-  text-align:center;
-  font-size:22px;
-  margin-top:15px;
-  color:purple;
-  font-weight:bold;
+  text-align: center;
+  font-size: 22px;
+  margin-top: 15px;
+  color: #06b6d4; /* Cyan to match card h2 color */
+  font-weight: bold;
+  font-family: 'Orbitron', monospace;
 }
 </style>
 
@@ -102,7 +113,7 @@ header{
 
 <div id="cartItems"></div>
 
-<h3>Total: ₹<span id="total">0</span></h3>
+<h3 style="color: #000000;">Total: ₹<span id="total">0</span></h3> <!-- Black text on white background -->
 
 <button id="orderBtn" class="place" onclick="placeOrder()">Place Order</button>
 
@@ -271,21 +282,3 @@ showCart();
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
