@@ -1,135 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel - Pending Orders</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo:wght@400;600&display=swap" rel="stylesheet">
+
+<!-- FIREBASE CDN -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<!-- FIREBASE CONFIG -->
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCqf0zl4evouc-AqrkEXodV9PhDHICB2W4",
+  authDomain: "cafeteria-token-system.firebaseapp.com",
+  projectId: "cafeteria-token-system",
+  storageBucket: "cafeteria-token-system.appspot.com",
+  messagingSenderId: "577756479182",
+  appId: "1:577756479182:web:87402060f8d942c0525a9f"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+</script>
+
 <style>
-/* ===== GLOBAL RESET ===== */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family: "Poppins", sans-serif;
-}
-
-/* ===== BODY ===== */
 body{
-  background: radial-gradient(circle at top, #0f172a, #020617);
-  min-height:100vh;
-  color:#e5e7eb;
+  margin:0;
+  font-family:'Exo', sans-serif;
+  background: #0f0f23; /* Solid dark blue to match menu */
+  color: #e0e0e0; /* Light gray text */
+  min-height: 100vh;
 }
 
-/* ===== HEADER ===== */
 header{
-  background: rgba(15,23,42,0.7);
-  backdrop-filter: blur(10px);
-  border-bottom:1px solid rgba(255,255,255,0.1);
-  padding:22px;
-  text-align:center;
-  font-size:28px;
-  font-weight:600;
-  letter-spacing:1px;
-  color:#38bdf8;
+  background: #8b5cf6; /* Solid purple to match menu header */
+  color: #ffffff; /* White text */
+  padding: 20px 30px;
+  text-align: center;
+  font-size: 24px;
+  font-family: 'Orbitron', monospace;
 }
 
-/* ===== NAVBAR ===== */
 nav{
-  display:flex;
-  justify-content:center;
-  gap:30px;
-  padding:14px;
-  background: rgba(2,6,23,0.8);
-  box-shadow:0 8px 25px rgba(0,0,0,0.6);
+  background: #ffffff; /* White background */
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 nav a{
-  color:#e5e7eb;
-  text-decoration:none;
-  font-size:16px;
-  padding:8px 16px;
-  border-radius:8px;
-  transition:0.3s;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #8b5cf6; /* Purple to match header */
 }
 
-nav a:hover{
-  background:#38bdf8;
-  color:#020617;
-}
-
-/* ===== GRID ===== */
 .container{
-  padding:40px 30px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-  gap:25px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column; /* Changed to vertical list */
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-/* ===== ORDER CARD ===== */
 .order-card{
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(15px);
-  border-radius:18px;
-  padding:22px;
-  box-shadow:0 0 0 rgba(56,189,248,0);
-  transition:0.4s;
-  border:1px solid rgba(255,255,255,0.1);
+  background: #ffffff; /* Solid white to match menu cards */
+  padding: 18px;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.order-card:hover{
-  transform:translateY(-8px);
-  box-shadow:0 0 25px rgba(56,189,248,0.4);
-}
-
-/* ===== TOKEN ===== */
 .order-card h3{
-  color:#22d3ee;
-  font-size:20px;
-  margin-bottom:10px;
+  color: #06b6d4; /* Cyan to match card h2 */
+  font-family: 'Orbitron', monospace;
+  margin: 0;
 }
 
-/* ===== TEXT ===== */
 .order-card p{
-  font-size:15px;
-  margin-bottom:8px;
-  color:#cbd5f5;
+  margin: 5px 0;
+  color: #000000; /* Black text on white */
 }
 
-/* ===== BUTTONS ===== */
 .btn{
-  padding:10px 18px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  font-size:14px;
-  font-weight:500;
-  transition:0.3s;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff; /* White text */
+  cursor: pointer;
+  margin-right: 8px;
+  font-weight: 600;
 }
 
-/* CONFIRM */
 .confirm{
-  background: linear-gradient(135deg,#3b82f6,#06b6d4);
-  color:white;
+  background: #10b981; /* Solid green to match menu buttons */
 }
 
-.confirm:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 12px #3b82f6;
-}
-
-/* DELIVER */
 .deliver{
-  background: linear-gradient(135deg,#22c55e,#16a34a);
-  color:white;
-}
-
-.deliver:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 12px #22c55e;
-}
-
-/* ===== MOBILE ===== */
-@media(max-width:600px){
-  header{
-    font-size:22px;
-  }
-  nav{
-    flex-direction:column;
-    gap:10px;
-  }
+  background: #ef4444; /* Solid red to match remove/header link */
 }
 </style>
+
+</head>
+
+<body>
+
+<header>📥 Pending Orders</header>
+
+<nav>
+<a href="admin.html">Pending Orders</a>
+<a href="delivered.html">✅Delivered Orders</a>
+</nav>
+
+<div class="container" id="orderBox"></div>
+
+<script>
+
+db.collection("orders").onSnapshot(snapshot=>{
+
+  let box = document.getElementById("orderBox");
+  box.innerHTML = "";
+
+  snapshot.forEach(doc=>{
+
+    let order = doc.data();
+
+    if(order.status !== "Delivered"){
+
+      let itemsHTML = "";
+
+      order.items.forEach(i=>{
+        itemsHTML += i.name + " - ₹" + i.price + "<br>";
+      });
+
+      let card = document.createElement("div");
+      card.className = "order-card";
+
+      card.innerHTML = `
+        <h3>Token: ${order.token}</h3>
+        <p>${itemsHTML}</p>
+        <p>Status: ${order.status}</p>
+        <div>
+          <button class="btn confirm"
+            onclick="confirmOrder('${doc.id}')">
+            Confirm
+          </button>
+          <button class="btn deliver"
+            onclick="markDelivered('${doc.id}')">
+            Delivered
+          </button>
+        </div>
+      `;
+
+      box.appendChild(card);
+    }
+
+  });
+
+});
+
+function confirmOrder(id){
+  db.collection("orders").doc(id).update({
+    status:"Confirmed"
+  });
+}
+
+function markDelivered(id){
+
+  db.collection("orders").doc(id).update({
+    status: "Delivered"
+  }).then(()=>{
+    alert("Order moved to Delivered!");
+  });
+
+}
+
+
+</script>
+
+</body>
+</html>
