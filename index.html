@@ -9,46 +9,37 @@
 body{
   margin:0;
   font-family:'Exo', sans-serif;
-  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%); /* Dark cosmic gradient */
+  background: #0f0f23; /* Solid dark blue */
   color: #e0e0e0;
   min-height: 100vh;
 }
 
 /* HEADER */
 header{
-  background: rgba(138, 43, 226, 0.8); /* Semi-transparent purple with glow */
+  background: #8b5cf6; /* Solid purple */
   color: #ffffff;
   padding: 20px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
-  backdrop-filter: blur(10px);
 }
 
 header h1{
   margin: 0;
   font-size: 28px;
   font-family: 'Orbitron', monospace;
-  text-shadow: 0 0 10px #00ffff;
 }
 
 header a{
-  background: linear-gradient(45deg, #ff0080, #ff4500); /* Neon pink to orange gradient */
+  background: #ef4444; /* Solid red */
   color: white;
   padding: 10px 18px;
   border-radius: 12px;
   text-decoration: none;
   font-weight: 600;
-  box-shadow: 0 0 15px rgba(255, 0, 128, 0.5);
-  transition: transform 0.2s;
 }
 
-header a:hover {
-  transform: scale(1.05);
-}
-
-/* MENU GRID - Changed to Flexbox for unique layout */
+/* MENU GRID - Flexbox layout */
 .menu{
   padding: 30px;
   display: flex;
@@ -57,49 +48,22 @@ header a:hover {
   gap: 25px;
 }
 
-/* CARD - Unique styling with neon effects */
+/* CARD */
 .card{
-  background: rgba(255, 255, 255, 0.05);
+  background: #ffffff; /* Solid white */
   padding: 20px;
   border-radius: 18px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  border: 2px solid transparent;
-  background-clip: padding-box;
-  position: relative;
   width: 280px;
-  transition: all 0.3s ease;
-}
-
-.card::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, #00ffff, #ff0080, #ffff00, #00ff00);
-  border-radius: 20px;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.card:hover::before {
-  opacity: 1;
-}
-
-.card:hover {
-  transform: translateY(-5px);
 }
 
 .card h2{
   text-align: center;
-  color: #00ffff; /* Cyan neon */
-  border-bottom: 3px solid #ff0080; /* Pink neon */
+  color: #06b6d4; /* Solid cyan */
+  border-bottom: 3px solid #ec4899; /* Solid pink */
   padding-bottom: 8px;
   font-size: 20px;
   font-family: 'Orbitron', monospace;
-  text-shadow: 0 0 8px #00ffff;
   margin-bottom: 15px;
 }
 
@@ -112,25 +76,17 @@ header a:hover {
   font-size: 16px;
   padding: 8px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.02);
+  background: #f3f4f6; /* Solid light gray */
 }
 
 .item button{
-  background: linear-gradient(45deg, #00ff00, #ffff00); /* Green to yellow neon */
+  background: #10b981; /* Solid green */
   border: none;
-  color: #000;
+  color: #ffffff;
   padding: 8px 14px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-  transition: all 0.2s;
-}
-
-.item button:hover{
-  background: linear-gradient(45deg, #ffff00, #00ff00);
-  box-shadow: 0 0 15px rgba(255, 255, 0, 0.7);
-  transform: scale(1.05);
 }
 </style>
 </head>
