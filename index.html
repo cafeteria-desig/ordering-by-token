@@ -6,117 +6,80 @@
 <title>Cafeteria Menu</title>
 
 <style>
-
-/* ===== RESET ===== */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
-}
-
-/* ===== BODY ===== */
 body{
-  background:linear-gradient(135deg,#2b1055,#7597de);
-  min-height:100vh;
-  color:#fff;
+  margin:0;
+  font-family:Segoe UI, Arial;
+  background:#fef3c7; /* Changed to light yellow for a warm, sunny theme */
 }
 
-/* ===== HEADER ===== */
+/* HEADER */
 header{
-  background:rgba(0,0,0,0.4);
-  backdrop-filter:blur(12px);
-  padding:18px 24px;
+  background:#d97706; /* Changed to amber for a warm, earthy header */
+  color:white;
+  padding:15px 20px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  border-bottom:1px solid rgba(255,255,255,0.15);
 }
 
 header h1{
-  font-size:26px;
-  letter-spacing:1px;
-  color:#facc15;
+  margin:0;
+  font-size:22px;
 }
 
 header a{
-  background:linear-gradient(135deg,#f97316,#facc15);
-  padding:10px 18px;
-  color:#1f2933;
-  font-weight:600;
-  border-radius:30px;
+  background:#dc2626; /* Changed to red for a vibrant accent */
+  color:white;
+  padding:8px 14px;
+  border-radius:8px;
   text-decoration:none;
-  transition:0.3s;
 }
 
-header a:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 15px #facc15;
-}
-
-/* ===== MENU GRID ===== */
+/* MENU GRID */
 .menu{
-  padding:40px 30px;
+  padding:20px;
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:28px;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
 }
 
-/* ===== CATEGORY CARD ===== */
+/* CARD */
 .card{
-  background:rgba(255,255,255,0.12);
-  backdrop-filter:blur(14px);
-  border-radius:22px;
-  padding:22px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.4);
-  transition:0.4s;
+  background:white;
+  padding:16px;
+  border-radius:14px;
+  box-shadow:0 6px 15px rgba(0,0,0,0.15);
 }
 
-.card:hover{
-  transform:translateY(-10px) scale(1.02);
-  box-shadow:0 0 25px rgba(250,204,21,0.6);
-}
-
-/* ===== CATEGORY TITLE ===== */
 .card h2{
   text-align:center;
-  font-size:20px;
-  color:#fde68a;
-  margin-bottom:15px;
-  letter-spacing:1px;
+  color:#92400e; /* Changed to brown for earthy text */
+  border-bottom:2px solid #dc2626; /* Changed to red accent */
+  padding-bottom:6px;
+  font-size:18px;
 }
 
-/* ===== ITEM ROW ===== */
+/* ITEM */
 .item{
-  background:rgba(0,0,0,0.35);
-  border-radius:14px;
-  padding:10px 12px;
   display:flex;
   justify-content:space-between;
-  align-items:center;
   margin:10px 0;
   font-size:15px;
 }
 
-/* ===== BUTTON ===== */
 .item button{
-  background:linear-gradient(135deg,#22c55e,#4ade80);
+  background:#dc2626; /* Changed to red */
   border:none;
-  padding:7px 14px;
-  border-radius:20px;
-  color:#064e3b;
-  font-weight:600;
+  color:white;
+  padding:6px 12px;
+  border-radius:6px;
   cursor:pointer;
-  transition:0.3s;
 }
 
 .item button:hover{
-  transform:scale(1.1);
-  box-shadow:0 0 12px #22c55e;
+  background:#b91c1c; /* Darker red on hover */
 }
-
-/* ====*
-
+</style>
 </head>
 
 <body>
@@ -196,6 +159,3 @@ function add(name,price){
 
 </body>
 </html>
-
-
-
