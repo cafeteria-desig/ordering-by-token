@@ -4,80 +4,133 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cafeteria Menu</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo:wght@400;600&display=swap" rel="stylesheet">
 <style>
 body{
   margin:0;
-  font-family:Segoe UI, Arial;
-  background:#fef3c7; /* Changed to light yellow for a warm, sunny theme */
+  font-family:'Exo', sans-serif;
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%); /* Dark cosmic gradient */
+  color: #e0e0e0;
+  min-height: 100vh;
 }
 
 /* HEADER */
 header{
-  background:#d97706; /* Changed to amber for a warm, earthy header */
-  color:white;
-  padding:15px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  background: rgba(138, 43, 226, 0.8); /* Semi-transparent purple with glow */
+  color: #ffffff;
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+  backdrop-filter: blur(10px);
 }
 
 header h1{
-  margin:0;
-  font-size:22px;
+  margin: 0;
+  font-size: 28px;
+  font-family: 'Orbitron', monospace;
+  text-shadow: 0 0 10px #00ffff;
 }
 
 header a{
-  background:#dc2626; /* Changed to red for a vibrant accent */
-  color:white;
-  padding:8px 14px;
-  border-radius:8px;
-  text-decoration:none;
+  background: linear-gradient(45deg, #ff0080, #ff4500); /* Neon pink to orange gradient */
+  color: white;
+  padding: 10px 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 0 15px rgba(255, 0, 128, 0.5);
+  transition: transform 0.2s;
 }
 
-/* MENU GRID */
+header a:hover {
+  transform: scale(1.05);
+}
+
+/* MENU GRID - Changed to Flexbox for unique layout */
 .menu{
-  padding:20px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:20px;
+  padding: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
 }
 
-/* CARD */
+/* CARD - Unique styling with neon effects */
 .card{
-  background:white;
-  padding:16px;
-  border-radius:14px;
-  box-shadow:0 6px 15px rgba(0,0,0,0.15);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+  width: 280px;
+  transition: all 0.3s ease;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #00ffff, #ff0080, #ffff00, #00ff00);
+  border-radius: 20px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card:hover {
+  transform: translateY(-5px);
 }
 
 .card h2{
-  text-align:center;
-  color:#92400e; /* Changed to brown for earthy text */
-  border-bottom:2px solid #dc2626; /* Changed to red accent */
-  padding-bottom:6px;
-  font-size:18px;
+  text-align: center;
+  color: #00ffff; /* Cyan neon */
+  border-bottom: 3px solid #ff0080; /* Pink neon */
+  padding-bottom: 8px;
+  font-size: 20px;
+  font-family: 'Orbitron', monospace;
+  text-shadow: 0 0 8px #00ffff;
+  margin-bottom: 15px;
 }
 
 /* ITEM */
 .item{
-  display:flex;
-  justify-content:space-between;
-  margin:10px 0;
-  font-size:15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px 0;
+  font-size: 16px;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .item button{
-  background:#dc2626; /* Changed to red */
-  border:none;
-  color:white;
-  padding:6px 12px;
-  border-radius:6px;
-  cursor:pointer;
+  background: linear-gradient(45deg, #00ff00, #ffff00); /* Green to yellow neon */
+  border: none;
+  color: #000;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  transition: all 0.2s;
 }
 
 .item button:hover{
-  background:#b91c1c; /* Darker red on hover */
+  background: linear-gradient(45deg, #ffff00, #00ff00);
+  box-shadow: 0 0 15px rgba(255, 255, 0, 0.7);
+  transform: scale(1.05);
 }
 </style>
 </head>
