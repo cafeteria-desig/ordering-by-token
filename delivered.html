@@ -4,6 +4,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Delivered Orders</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo:wght@400;600&display=swap" rel="stylesheet">
 
 <!-- FIREBASE CDN -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -28,101 +29,109 @@ const db = firebase.firestore();
 
 body{
   margin:0;
-  font-family:Segoe UI, Arial;
-  background:#f1f5f9;
+  font-family:'Exo', sans-serif;
+  background: #0f0f23; /* Solid dark blue to match */
+  color: #e0e0e0; /* Light gray text */
+  min-height: 100vh;
 }
 
 /* HEADER */
 header{
-  background:linear-gradient(135deg,#16a34a,#22c55e);
-  color:white;
-  padding:22px;
-  text-align:center;
-  font-size:26px;
-  font-weight:bold;
-  letter-spacing:1px;
+  background: #8b5cf6; /* Solid purple to match */
+  color: white;
+  padding: 20px 30px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-family: 'Orbitron', monospace;
 }
 
 /* NAVBAR */
 nav{
-  background:white;
-  padding:12px;
-  text-align:center;
-  box-shadow:0 3px 8px rgba(0,0,0,0.1);
-  position:sticky;
-  top:0;
-  z-index:100;
+  background: white;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 nav a{
-  margin:0 18px;
-  text-decoration:none;
-  font-weight:600;
-  color:#16a34a;
-  font-size:16px;
+  margin: 0 18px;
+  text-decoration: none;
+  font-weight: 600;
+  color: #8b5cf6; /* Purple to match */
+  font-size: 16px;
 }
 
 nav a:hover{
-  color:#065f46;
+  color: #6d28d9; /* Darker purple */
 }
 
 /* STATS */
 .stats{
-  text-align:center;
-  margin:20px 0;
-  font-size:20px;
-  color:#065f46;
-  font-weight:bold;
+  text-align: center;
+  margin: 20px 0;
+  font-size: 20px;
+  color: #06b6d4; /* Cyan to match */
+  font-weight: bold;
+  font-family: 'Orbitron', monospace;
 }
 
-/* GRID */
+/* CONTAINER - Changed to vertical list */
 .container{
-  padding:25px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:22px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 /* ORDER CARD */
 .order-card{
-  background:white;
-  padding:20px;
-  border-radius:14px;
-  box-shadow:0 8px 15px rgba(0,0,0,0.12);
-  transition:transform 0.2s, box-shadow 0.2s;
+  background: white;
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .order-card:hover{
-  transform:translateY(-5px);
-  box-shadow:0 12px 20px rgba(0,0,0,0.18);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.18);
 }
 
 .order-card h3{
-  color:#16a34a;
-  margin-bottom:10px;
+  color: #06b6d4; /* Cyan to match */
+  margin-bottom: 10px;
+  font-family: 'Orbitron', monospace;
 }
 
 .items{
-  color:#374151;
-  font-size:14px;
-  line-height:1.6;
-  margin-bottom:12px;
+  color: #000000; /* Black text on white */
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 12px;
 }
 
 /* DELETE BUTTON */
 .delete-btn{
-  width:100%;
-  background:#dc2626;
-  color:white;
-  border:none;
-  padding:10px;
-  border-radius:8px;
-  cursor:pointer;
-  font-size:15px;
+  width: 100%;
+  background: #ef4444; /* Solid red to match */
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .delete-btn:hover{
-  background:#b91c1c;
+  background: #dc2626; /* Darker red */
 }
 
 </style>
@@ -168,19 +177,20 @@ db.collection("orders")
       itemsHTML += i.name + " - ₹" + i.price + "<br>";
     });
 
-    box.innerHTML += `
-      <div class="order-card">
-        <h3>Token: ${order.token}</h3>
+    let card = document.createElement("div");
+    card.className = "order-card";
 
-        <div class="items">
-          ${itemsHTML}
-        </div>
-
-        <button class="delete-btn" onclick="deleteOrder('${doc.id}')">
-          🗑 Delete Order
-        </button>
+    card.innerHTML = `
+      <h3>Token: ${order.token}</h3>
+      <div class="items">
+        ${itemsHTML}
       </div>
+      <button class="delete-btn" onclick="deleteOrder('${doc.id}')">
+        🗑 Delete Order
+      </button>
     `;
+
+    box.appendChild(card);
 
   });
 
@@ -199,4 +209,3 @@ function deleteOrder(id){
 
 </body>
 </html>
-
