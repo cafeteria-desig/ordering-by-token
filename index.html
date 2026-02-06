@@ -6,80 +6,117 @@
 <title>Cafeteria Menu</title>
 
 <style>
-body{
+
+/* ===== RESET ===== */
+*{
   margin:0;
-  font-family:Segoe UI, Arial;
-  background:#eef2f7;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
 }
 
-/* HEADER */
+/* ===== BODY ===== */
+body{
+  background:linear-gradient(135deg,#2b1055,#7597de);
+  min-height:100vh;
+  color:#fff;
+}
+
+/* ===== HEADER ===== */
 header{
-  background:#111827;
-  color:white;
-  padding:15px 20px;
+  background:rgba(0,0,0,0.4);
+  backdrop-filter:blur(12px);
+  padding:18px 24px;
   display:flex;
   justify-content:space-between;
   align-items:center;
+  border-bottom:1px solid rgba(255,255,255,0.15);
 }
 
 header h1{
-  margin:0;
-  font-size:22px;
+  font-size:26px;
+  letter-spacing:1px;
+  color:#facc15;
 }
 
 header a{
-  background:#22c55e;
-  color:white;
-  padding:8px 14px;
-  border-radius:8px;
+  background:linear-gradient(135deg,#f97316,#facc15);
+  padding:10px 18px;
+  color:#1f2933;
+  font-weight:600;
+  border-radius:30px;
   text-decoration:none;
+  transition:0.3s;
 }
 
-/* MENU GRID */
+header a:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 15px #facc15;
+}
+
+/* ===== MENU GRID ===== */
 .menu{
-  padding:20px;
+  padding:40px 30px;
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:20px;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:28px;
 }
 
-/* CARD */
+/* ===== CATEGORY CARD ===== */
 .card{
-  background:white;
-  padding:16px;
-  border-radius:14px;
-  box-shadow:0 6px 15px rgba(0,0,0,0.15);
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(14px);
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.4);
+  transition:0.4s;
 }
 
+.card:hover{
+  transform:translateY(-10px) scale(1.02);
+  box-shadow:0 0 25px rgba(250,204,21,0.6);
+}
+
+/* ===== CATEGORY TITLE ===== */
 .card h2{
   text-align:center;
-  color:#111827;
-  border-bottom:2px solid #22c55e;
-  padding-bottom:6px;
-  font-size:18px;
+  font-size:20px;
+  color:#fde68a;
+  margin-bottom:15px;
+  letter-spacing:1px;
 }
 
-/* ITEM */
+/* ===== ITEM ROW ===== */
 .item{
+  background:rgba(0,0,0,0.35);
+  border-radius:14px;
+  padding:10px 12px;
   display:flex;
   justify-content:space-between;
+  align-items:center;
   margin:10px 0;
   font-size:15px;
 }
 
+/* ===== BUTTON ===== */
 .item button{
-  background:#22c55e;
+  background:linear-gradient(135deg,#22c55e,#4ade80);
   border:none;
-  color:white;
-  padding:6px 12px;
-  border-radius:6px;
+  padding:7px 14px;
+  border-radius:20px;
+  color:#064e3b;
+  font-weight:600;
   cursor:pointer;
+  transition:0.3s;
 }
 
 .item button:hover{
-  background:#16a34a;
+  transform:scale(1.1);
+  box-shadow:0 0 12px #22c55e;
 }
-</style>
+
+/* ====*
+
 </head>
 
 <body>
@@ -159,5 +196,6 @@ function add(name,price){
 
 </body>
 </html>
+
 
 
